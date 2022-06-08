@@ -153,7 +153,7 @@ check = False
 count = 0
 st.write('\n  TUGAS BESAR TEORI BAHASA DAN AUTOMATA | KELOMPOK 15 | IF-44-01')
 
-while check != True:
+while check != True && count >= 1:
   st.write('=================================================================')
   st.write('||       Welcome, Please do a word check in English            ||')
   st.write('||   Here are the words in English that have been studied      ||')
