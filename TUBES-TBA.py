@@ -166,4 +166,3 @@ while check != True:
   input_string = sentence.lower() + '#'
   check = lexical(sentence, check)
 
-parser(sentence, check)
