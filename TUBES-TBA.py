@@ -130,20 +130,20 @@ def lexical(sentence, check):
     state = transition_table[(state, current_char)]
     
     if state == 'q4':
-      print('Current Token                  : ', current_token, ', valid')
+      st.write('Current Token                  : ', current_token, ', valid')
       current_token = ' '
       check = True
     
     if state == 'error':
-      print('Sorry, the word you entered is invalid')
-      print('Please try again and re-check the words you entered!')
+      st.write('Sorry, the word you entered is invalid')
+      st.write('Please try again and re-check the words you entered!')
       check = False
       break
     idx_char = idx_char + 1
 
   #Conclusion
   if state == 'accept':
-    print('\nAll tokens have been entered   : ', sentence, ', valid')
+    st.write('\nAll tokens have been entered   : ', sentence, ', valid')
     check = True
   
   return check
