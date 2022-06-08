@@ -161,7 +161,7 @@ while check != True:
   st.write('|| VB  : eat, bring, play, read                                ||')
   st.write('|| OB  : pancake, bottle, piano, book                          ||')
   st.write('=================================================================')
-  sentence = input('Input                          : ')
+  sentence = st.text_input('Input                          : ')
   
   input_string = sentence.lower() + '#'
   check = lexical(sentence, check)
