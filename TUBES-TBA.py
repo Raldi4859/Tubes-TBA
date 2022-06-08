@@ -150,6 +150,7 @@ def lexical(sentence, check):
 
 #--------------------------------------------------MAIN PROGRAM---------------------------------------------------------------------------------
 check = False
+count = 0
 st.write('\n  TUGAS BESAR TEORI BAHASA DAN AUTOMATA | KELOMPOK 15 | IF-44-01')
 
 while check != True:
@@ -161,7 +162,7 @@ while check != True:
   st.write('|| VB  : eat, bring, play, read                                ||')
   st.write('|| OB  : pancake, bottle, piano, book                          ||')
   st.write('=================================================================')
-  sentence = st.text_input('Input                          : ', key = sentence)
+  sentence = st.text_input('Input                          : ', key = count)
   
   input_string = sentence.lower() + '#'
   check = lexical(sentence, check)
