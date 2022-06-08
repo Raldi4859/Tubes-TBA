@@ -1,4 +1,5 @@
 import string
+import streamlit as st
 
 #-----------------------------------------------------LEXICAL-----------------------------------------------------------------------------------
 
@@ -147,173 +148,20 @@ def lexical(sentence, check):
   
   return check
 
-#-----------------------------------------------------PARSER------------------------------------------------------------------------------------
-
-def parser(sentence, check):
-  if check:
-    print('=====================================================================================================')
-    print('||                    A word validation check with a lexical analyzer has been completed           ||')                      
-    print('||                         Next, the grammar rules will be checked                                 ||')
-    print('=====================================================================================================')
-
-    #Input Example
-    tokens = sentence.lower().split()
-    tokens.append('EOS')
-
-    #Symbols Definition
-    non_terminals = ['S', 'SB', 'VB', 'OB']
-    terminals = ['he', 'you', 'they', 'eat', 'bring', 'play', 'read', 'pancake', 'bottle', 'piano', 'book']
-
-    #Parse Table Definition
-    parse_table = {}
-
-    parse_table[('S', 'he')] = ['SB', 'VB', 'OB']
-    parse_table[('S', 'you')] = ['SB', 'VB', 'OB']
-    parse_table[('S', 'they')] = ['SB', 'VB', 'OB']
-    parse_table[('S', 'eat')] = ['error']
-    parse_table[('S', 'bring')] = ['error']
-    parse_table[('S', 'play')] = ['error']
-    parse_table[('S', 'read')] = ['error']
-    parse_table[('S', 'pancake')] = ['SB', 'VB', 'OB']
-    parse_table[('S', 'bottle')] = ['SB', 'VB', 'OB']
-    parse_table[('S', 'piano')] = ['SB', 'VB', 'OB']
-    parse_table[('S', 'book')] = ['SB', 'VB', 'OB']
-    parse_table[('S', 'EOS')] = ['error']
-
-    parse_table[('SB', 'he')] = ['he']
-    parse_table[('SB', 'you')] = ['you']
-    parse_table[('SB', 'they')] = ['they']
-    parse_table[('SB', 'eat')] = ['error']
-    parse_table[('SB', 'bring')] = ['error']
-    parse_table[('SB', 'play')] = ['error']
-    parse_table[('SB', 'read')] = ['error']
-    parse_table[('SB', 'pancake')] = ['error']
-    parse_table[('SB', 'bottle')] = ['error']
-    parse_table[('SB', 'piano')] = ['error']
-    parse_table[('SB', 'book')] = ['error']
-    parse_table[('SB', 'EOS')] = ['error']
-
-    parse_table[('VB', 'he')] = ['error']
-    parse_table[('VB', 'you')] = ['error']
-    parse_table[('VB', 'they')] = ['error']
-    parse_table[('VB', 'eat')] = ['eat']
-    parse_table[('VB', 'bring')] = ['bring']
-    parse_table[('VB', 'play')] = ['play']
-    parse_table[('VB', 'read')] = ['read']
-    parse_table[('VB', 'pancake')] = ['error']
-    parse_table[('VB', 'bottle')] = ['error']
-    parse_table[('VB', 'piano')] = ['error']
-    parse_table[('VB', 'book')] = ['error']
-    parse_table[('VB', 'EOS')] = ['error']
-
-    parse_table[('OB', 'he')] = ['error']
-    parse_table[('OB', 'you')] = ['error']
-    parse_table[('OB', 'they')] = ['error']
-    parse_table[('OB', 'eat')] = ['error']
-    parse_table[('OB', 'bring')] = ['error']
-    parse_table[('OB', 'play')] = ['error']
-    parse_table[('OB', 'read')] = ['error']
-    parse_table[('OB', 'pancake')] = ['pancake']
-    parse_table[('OB', 'bottle')] = ['bottle']
-    parse_table[('OB', 'piano')] = ['piano']
-    parse_table[('OB', 'book')] = ['book']
-    parse_table[('OB', 'EOS')] = ['error']
-
-    #Stack Initialization
-    stack = []
-    stack.append('#')
-    stack.append('S')
-
-    #Input reading initialization
-    idx_token = 0
-    symbol = tokens[idx_token]
-
-    #Parsing Process
-    try :
-
-      while (len(stack) > 0):
-        top = stack[len(stack)-1]
-        print('Top                   = ', top)
-        print('Symbol                = ', symbol)
-
-        if top in terminals:
-          print('Top is a terminal symbol')
-
-          if top == symbol:
-            stack.pop()
-            idx_token = idx_token + 1
-            symbol = tokens[idx_token]
-
-            if symbol == 'EOS':
-              print('Stack Contents  : ', stack)
-              stack.pop()
-
-          else:
-            print('Error')
-            break;
-
-        elif top in non_terminals:
-          print('Top is a non-terminal symbol')
-
-          if parse_table[(top, symbol)][0] != 'error':
-            stack.pop()
-            symbols_to_be_pushed = parse_table[(top, symbol)]
-
-            for i in range(len(symbols_to_be_pushed)-1,-1,-1):
-              stack.append(symbols_to_be_pushed[i])
-
-          else:
-            print('Error')
-            break;
-
-        else:
-          print('Error')
-          break;
-
-        print('Stack Contents : ', stack)
-        print('-----------------------------------------------------------------------------------------------------')
-       
-    except KeyError :
-      print('The word was not found in the system')
-
-    #Conclusion
-    print()
-    if symbol == 'EOS' and len(stack) == 0:
-      print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-      print('|| Input String : ', sentence,"                                                      ||")
-      print('||--------------------------------------------------------------------------------------||')
-      print('||                                   Congratulations!                                   ||')
-      print('||      The sentence you input is accepted because it is in accordance with grammar     ||')
-      print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-
-    else :
-      print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-      print('| Error, Input String : ', sentence,"                                              |")
-      print('|---------------------------------------------------------------------------------------|')              
-      print('|                                             Sorry,                                    |')
-      print('|     The sentence you input is not accepted because it does not match the grammar      |')
-      print('|                                   or there is an invalid word                         |')
-      print('|                      Please re-check the sentence you entered. Thank you              |')
-      print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-      
-  else :
-    pass
-
-  return parser
 #--------------------------------------------------MAIN PROGRAM---------------------------------------------------------------------------------
 check = False
-print('\n  TUGAS BESAR TEORI BAHASA DAN AUTOMATA | KELOMPOK 15 | IF-44-01')
+st.write('\n  TUGAS BESAR TEORI BAHASA DAN AUTOMATA | KELOMPOK 15 | IF-44-01')
 
 while check != True:
-  print('=================================================================')
-  print('||       Welcome, Please do a word check in English            ||')
-  print('||   Here are the words in English that have been studied      ||')
-  print('||=============================================================||')
-  print('|| SB  : he, you, they                                         ||')
-  print('|| VB  : eat, bring, play, read                                ||')
-  print('|| OB  : pancake, bottle, piano, book                          ||')
-  print('=================================================================')
-  sentence = input('Input                          : ')
+  st.write('=================================================================')
+  st.write('||       Welcome, Please do a word check in English            ||')
+  st.write('||   Here are the words in English that have been studied      ||')
+  st.write('||=============================================================||')
+  st.write('|| SB  : he, you, they                                         ||')
+  st.write('|| VB  : eat, bring, play, read                                ||')
+  st.write('|| OB  : pancake, bottle, piano, book                          ||')
+  st.write('=================================================================')
+  sentence = st.input('Input                          : ')
   
   input_string = sentence.lower() + '#'
   check = lexical(sentence, check)
